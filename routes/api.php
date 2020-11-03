@@ -41,7 +41,8 @@ Route::put("personas/{id}",'API\PersonaController@actualizar_per')->where("id","
 Route::delete("personas/{id}","API\PersonaController@borrar_per");//D borrar personas especifico
 
 //relaciones
-Route::get("relacion/{id}","API\ComentarioController@relac_per_coms")->where("id","[1-100]+");
+Route::get("relacion/{id}","API\ComentarioController@relac_per_coms");
+Route::get("relacion","API\ComentarioController@relac_com_prod");
 //Route::get("relacion/{prod}","API\ComentarioController@relac_com_prod");
 //Route::put("personas",['middleware'=>'checar.edad','API\PersonaController@actualizar_per']);
 //Route::post("personas",['middleware'=>'checar.edad','API\PersonaController@crear_per']);

@@ -41,11 +41,11 @@ class ComentarioController extends Controller
             return response()->json(["El comentario fue eliminado:"=>$com],201);
         return response()->json(null,400);
     }
-    public function relac_per_coms($id){
-        $per_com=DB::table('comentarios')->join('personas','comentarios.persona_id','=','personas.id')->where('personas.id','=',$id->id)->select('personas.nombre','comentarios.id','comentarios.cuerpo','comentarios.titulo')->get();
+    public function relac_per_coms(Request $nombre){
+        $per_com=DB::table('comentarios')->join('personas','comentarios.persona_id','=','personas.id')->where('personas.nombre','=',$nombre->nombre)->select('personas.nombre','comentarios.id','comentarios.cuerpo','comentarios.titulo')->get();
         return response()->json(["Los comentarios que has realizado son:"=>$per_com],201);
     }
-    public function relac_com_prod($prod){
+    public function relac_com_prod(Request $prod){
         $prod_com=DB::table('productos')->join('comentarios','comentarios.producto_id','=','productos.id')->where('productos.nombre_p','=',$prod->nombre_p)->select('productos.nombre_p','productos.precio','comentarios.titulo','comentarios.titulo')->get();
     }
 }
