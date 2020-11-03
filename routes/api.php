@@ -39,5 +39,9 @@ Route::get("personas/{id?}","API\PersonaController@mostrar_per")->where("id","[1
 Route::post("personas","API\PersonaController@crear_per")->middleware('checar.edad');//C crear persona
 Route::put("personas/{id}",'API\PersonaController@actualizar_per')->where("id","[1-200]+")->middleware('checar.edad');// U actualizar personas
 Route::delete("personas/{id}","API\PersonaController@borrar_per");//D borrar personas especifico
+
+//relaciones
+Route::get("relacion/{id}","API\ComentarioController@relac_per_coms")->where("id","[1-100]+");
+//Route::get("relacion/{prod}","API\ComentarioController@relac_com_prod");
 //Route::put("personas",['middleware'=>'checar.edad','API\PersonaController@actualizar_per']);
 //Route::post("personas",['middleware'=>'checar.edad','API\PersonaController@crear_per']);

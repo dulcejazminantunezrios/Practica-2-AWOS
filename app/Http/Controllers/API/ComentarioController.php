@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\modelos\comentarios;
+use Illuminate\Facades\DB;
 
 class ComentarioController extends Controller
 {
@@ -39,5 +40,12 @@ class ComentarioController extends Controller
         if($com->delete())
             return response()->json(["El comentario fue eliminado:"=>$com],201);
         return response()->json(null,400);
+    }
+    public function relac_per_coms($id){
+        $per_com=DB::table('comentarios')->join('personas','comentarios.persona_id','=','personas.id')->where('personas.id','=',$id->id)->select('personas.nombre','comentarios.id','comentarios.cuerpo','comentarios.titulo')->get();
+        return response()->json(["Los comentarios que has realizado son:"=>$per_com],201);
+    }
+    public function relac_com_prod($prod){
+        $prod_com=DB::table('productos')->join('comentarios','comentarios.producto_id','=','productos.id')->where('productos.nombre_p','=',$prod->nombre_p)->select('productos.nombre_p','productos.precio','comentarios.titulo','comentarios.titulo')->get();
     }
 }
