@@ -5,7 +5,8 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\modelos\comentarios;
-use Illuminate\Facades\DB;
+use Illuminate\Support\Facades\DB;
+
 
 class ComentarioController extends Controller
 {
@@ -18,7 +19,7 @@ class ComentarioController extends Controller
         $com->titulo=$request->titulo;
         $com->cuerpo=$request->cuerpo;
         $com->producto_id=$request->producto_id;
-
+        $com->persona_id=$request->persona_id;
         if($com->save())
             return response()->json(["El comentario fue creado:"=>$com],201);
         return response()->json(null,400);
@@ -30,6 +31,7 @@ class ComentarioController extends Controller
         $com->titulo=$request->titulo;
         $com->cuerpo=$request->cuerpo;
         $com->producto_id=$request->producto_id;
+        $com->persona_id=$request->persona_id;
         if($com->save())
             return response()->json(["El comentario fue actualizado:"=>$com],201);
         return response()->json(null,400);
@@ -41,11 +43,28 @@ class ComentarioController extends Controller
             return response()->json(["El comentario fue eliminado:"=>$com],201);
         return response()->json(null,400);
     }
-    public function relac_per_coms(Request $nombre){
-        $per_com=DB::table('comentarios')->join('personas','comentarios.persona_id','=','personas.id')->where('personas.nombre','=',$nombre->nombre)->select('personas.nombre','comentarios.id','comentarios.cuerpo','comentarios.titulo')->get();
+    public function per_com(Request $nombre){
+        $per_com=DB::table('comentarios')
+        ->join('personas','comentarios.persona_id','=','personas.id')
+        ->where('personas.nombre','=',$nombre->nombre)
+        ->select('personas.nombre','comentarios.cuerpo','comentarios.titulo')
+        ->get();
         return response()->json(["Los comentarios que has realizado son:"=>$per_com],201);
     }
-    public function relac_com_prod(Request $prod){
-        $prod_com=DB::table('productos')->join('comentarios','comentarios.producto_id','=','productos.id')->where('productos.nombre_p','=',$prod->nombre_p)->select('productos.nombre_p','productos.precio','comentarios.titulo','comentarios.titulo')->get();
+    public function prod_com(Request $id){
+        $prod_com=DB::table('comentarios')
+        ->join('productos','comentarios.producto_id','=','productos.id')
+        ->where('productos.id','=',$id->id)
+        ->select('productos.nombre_p','productos.precio','comentarios.titulo','comentarios.cuerpo')
+        ->get();
+        return response()->json(["Los comentarios del producto son:"=>$prod_com],201);
+    }
+    public function todo_rel(){
+        $todo=DB::table('comentarios')
+        ->join('productos','comentarios.producto_id','=','productos.id')
+        ->join('personas', 'comentarios.persona_id','=','personas.id')
+        ->select('personas.nombre','productos.nombre_p','productos.precio','comentarios.titulo','comentarios.cuerpo')
+        ->get();
+        return response()->json(["Comentarios, personas y productos:"=>$todo],201);
     }
 }

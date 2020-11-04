@@ -3,7 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API;
-use App\modelos;
+use App\Http\middleware;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -40,9 +40,13 @@ Route::post("personas","API\PersonaController@crear_per")->middleware('checar.ed
 Route::put("personas/{id}",'API\PersonaController@actualizar_per')->where("id","[1-200]+")->middleware('checar.edad');// U actualizar personas
 Route::delete("personas/{id}","API\PersonaController@borrar_per");//D borrar personas especifico
 
+//usuarios
+Route::post("agregar","API\UsuarioController@agregar");//agregar usuarios
+Route::get("index","API\UsuarioController@indice");//ver usuarios
+Route::post("login","API\UsuarioController@login");//iniciar sesión
+Route::put("permiso","API\UsuarioController@update_per");//actualizar permiso
+
 //relaciones
-Route::get("relacion/{id}","API\ComentarioController@relac_per_coms");
-Route::get("relacion","API\ComentarioController@relac_com_prod");
-//Route::get("relacion/{prod}","API\ComentarioController@relac_com_prod");
-//Route::put("personas",['middleware'=>'checar.edad','API\PersonaController@actualizar_per']);
-//Route::post("personas",['middleware'=>'checar.edad','API\PersonaController@crear_per']);
+Route::get("relacionpe/{nombre}","API\ComentarioController@per_com");
+Route::get("relacionpd/{id}","API\ComentarioController@prod_com");
+Route::get("todo","API\ComentarioController@todo_rel");
