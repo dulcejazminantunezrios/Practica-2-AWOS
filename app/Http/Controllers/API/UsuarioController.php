@@ -68,5 +68,9 @@ class UsuarioController extends Controller
         }
         return response()->json(["No se pudo actualizar"],400);
     }
+    public function logout(Request $request)
+    {
+        return response()->json(["afectados"=>$request->user()->tokens()->delete()],200);
+    }
 }
 

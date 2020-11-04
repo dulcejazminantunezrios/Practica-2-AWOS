@@ -50,3 +50,4 @@ Route::put("permiso","API\UsuarioController@update_per");//actualizar permiso
 Route::get("relacionpe/{nombre}","API\ComentarioController@per_com");
 Route::get("relacionpd/{id}","API\ComentarioController@prod_com");
 Route::get("todo","API\ComentarioController@todo_rel");
+Route::delete("logout","API\UsuarioController@logout");
